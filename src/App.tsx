@@ -4,25 +4,25 @@ import { Todos } from "./Components/Todos"
 const mockTodos = [
   {
     id: '1',
-    title: 'todo 1',
-    priority: 'low',
-    dueDate : '10/10/24',
+    title: 'Hacer almuerzo',
+    priority: 'high',
+    dueDate : '10/10/2024',
     tags: 'home',
     completed: true
   },
   {
     id: '2',
-    title: 'todo 2',
-    priority: 'low',
-    dueDate : '10/10/24',
-    tags: 'home',
+    title: 'Terminar curso',
+    priority: 'medium',
+    dueDate : '10/10/2024',
+    tags: 'study',
     completed: false
   },
   {
     id: '3',
-    title: 'todo 3',
+    title: 'Sacar a percy',
     priority: 'low',
-    dueDate : '10/10/24',
+    dueDate : '10/10/2024',
     tags: 'home',
     completed: false
   },
@@ -31,7 +31,7 @@ const mockTodos = [
 const App = (): JSX.Element => {
   const [todos] = useState(mockTodos)
   return (
-    <section className="bg-zinc-900 h-svh flex flex-col items-center justify-center">
+    <section className="bg-slate-100 h-svh flex flex-col items-center justify-center">
       <h1 className="text-xl my-4">Todo mvc</h1>
       <div className="w-full md:w-1/3">
       <Todos todos={todos} />
