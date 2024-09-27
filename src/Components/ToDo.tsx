@@ -1,9 +1,13 @@
 import React from "react"
-import { Todo as TodoType } from '../types'
+import { TodoId, Todo as TodoType } from '../types'
 
-type Props = TodoType
+interface Props extends TodoType {
+    onRemoveTodo: ({ id }: TodoId) => void
+    onComplete: ({ id, completed }: Pick<TodoType, 'id' | 'completed'>) => void
 
-export const ToDo: React.FC<Props> = ({ id, title, completed, priority, dueDate, tags }) => {
+}
+
+export const ToDo: React.FC<Props> = ({ id, title, completed, priority, dueDate, tags, onRemoveTodo, onComplete }) => {
 
     return (
         <div className=" bg-zinc-700/80 rounded p-2 flex flex-col w-full justify-between">
@@ -12,10 +16,12 @@ export const ToDo: React.FC<Props> = ({ id, title, completed, priority, dueDate,
                     <p className="text-gray-900 bg-lime-300 w-16 text-center rounded-xl">{tags}</p>
                 </article>
                 <input
-                    className="mx-1 hidden"
+                    className="mx-1 "
                     checked={completed}
                     type="checkbox"
-                    onChange={() => { }}
+                    onChange={(e) => {
+                        onComplete({id,completed:e.target.checked})
+                     }}
                 />
                 <label className={`${completed ? 'line-through' : ''} text-xl`} >{title}</label>
                 <article className="text-white flex justify-between">
@@ -30,7 +36,7 @@ export const ToDo: React.FC<Props> = ({ id, title, completed, priority, dueDate,
 
                 <button
                     className="hover:bg-red-500  font-semibold ring-2 ring-transparent hover:ring-red-600 text-red-500 hover:text-white px-2 rounded transition-all duration-150"
-                    onClick={() => { }}
+                    onClick={() => onRemoveTodo({ id })}
                 >
                     Delete
                 </button>
