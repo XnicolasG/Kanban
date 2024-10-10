@@ -6,4 +6,7 @@
     .alert-dialog::backdrop {
       background: linear-gradient(#000d, #000a);
     }
+    .modalInput{
+        @apply bg-zinc-700 rounded px-2 text-white
+    }
   }
