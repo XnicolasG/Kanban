@@ -1,5 +1,6 @@
-import React from "react"
+import React, { useEffect, useRef } from "react"
 import { TodoId, Todo as TodoType } from '../types'
+import {draggable} from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 
 interface Props extends TodoType {
     onRemoveTodo: ({ id }: TodoId) => void
@@ -9,8 +10,21 @@ interface Props extends TodoType {
 
 export const ToDo: React.FC<Props> = ({ id, title, completed, priority, dueDate, tags, onRemoveTodo, onComplete }) => {
 
+    const cardRef = useRef(null)
+
+    useEffect(() =>{
+        const element = cardRef.current;
+        if (!element) {
+            return
+        }
+        return draggable({
+            element,
+        });
+    },[])
     return (
-        <div className=" bg-zinc-700/80 rounded p-2 flex flex-col w-full justify-between">
+        <div 
+        ref={cardRef}
+        className=" bg-zinc-700/80 rounded p-2 flex flex-col w-full justify-between">
             <div className="flex flex-col gap-2 p-2">
                 <article>
                     <p className="text-gray-900 bg-lime-300 w-16 text-center rounded-xl">{tags}</p>
