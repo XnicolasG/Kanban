@@ -1,42 +1,22 @@
 import { useState } from "react"
 import { Todos } from "./Components/Todos"
-import { FilterValue, TodoCompleted, TodoDuedate, TodoId, TodoPriority, TodoTags, TodoTitle, Todo as TodoType } from "./types"
+import { FilterValue, TodoDuedate, TodoId, TodoPriority, TodoTags, TodoStatus, TodoTitle, Todo as TodoType } from "./types"
 import { TODO_FILTERS } from "./const"
+import { mockTodos } from './data/mock.js'
 import { Footer } from "./Components/Footer"
 
-const mockTodos = [
-  {
-    id: '1',
-    title: 'Hacer almuerzo',
-    priority: 'high',
-    dueDate: '10/10/2024',
-    tags: 'home',
-    completed: false
-  },
-  {
-    id: '2',
-    title: 'Terminar curso',
-    priority: 'medium',
-    dueDate: '10/10/2024',
-    tags: 'study',
-    completed: false
-  },
-  {
-    id: '3',
-    title: 'Sacar a percy',
-    priority: 'low',
-    dueDate: '10/10/2024',
-    tags: 'home',
-    completed: false
-  },
-]
 
 const App = (): JSX.Element => {
   const [todos, setTodos] = useState(mockTodos)
   const [filterSelected, setFilterSelected] = useState<FilterValue>(TODO_FILTERS.ALL)
 
+  const columns: TodoStatus[] = [
+    { status: 'todo' },
+    { status: 'doing' },
+    { status: 'done' }
+  ];
   console.log(todos);
-  
+
   const handleRemove = ({ id }: TodoId) => {
     const newTodos = todos.filter(todo => todo.id !== id)
     setTodos(newTodos)
@@ -77,7 +57,8 @@ const App = (): JSX.Element => {
     { title }: TodoTitle,
     { priority }: TodoPriority,
     { dueDate }: TodoDuedate,
-    { tags }: TodoTags
+    { tags }: TodoTags,
+    { status }: TodoStatus
   ): void => {
 
     const newTodo = {
@@ -86,7 +67,8 @@ const App = (): JSX.Element => {
       dueDate,
       tags,
       id: crypto.randomUUID(),
-      completed: false
+      completed: false,
+      status
     }
 
     const newTodos = [...todos, newTodo]
@@ -95,22 +77,28 @@ const App = (): JSX.Element => {
   return (
     <section className="bg-slate-100 h-svh flex flex-col items-center justify-center">
       <h1 className="text-2xl my-4">Take control on your tasks</h1>
-      <div className="w-full px-8 md:w-3/4 ">
-        <Todos
-          onComplete={hanldeCompleted}
-          onRemoveTodo={handleRemove}
-          todos={filteredTodos}
-          onAddTodo={handleAddTodo}
-        />
+      <div className="w-full flex gap-4 px-8 md:w-[80%] ">
+        {
+          columns.map((column) => (
+            <Todos
+              key={column.status}
+              name={column.status}
+              onComplete={hanldeCompleted}
+              onRemoveTodo={handleRemove}
+              todos={filteredTodos}
+              onAddTodo={handleAddTodo}
+            />
+          ))
+        }
 
-        <Footer
-          activeCount={activeCount}
-          completedCount={completedCount}
-          onClearCompleted={handleRemoveAllCompleted}
-          filterSelected={filterSelected}
-          handleFilterChange={hanldeFilterChange}
-        />
       </div>
+      <Footer
+        activeCount={activeCount}
+        completedCount={completedCount}
+        onClearCompleted={handleRemoveAllCompleted}
+        filterSelected={filterSelected}
+        handleFilterChange={hanldeFilterChange}
+      />
     </section>
   )
 }

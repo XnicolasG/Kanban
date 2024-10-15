@@ -1,21 +1,24 @@
 import React, { useRef, useState } from "react"
-import { TodoDuedate, TodoPriority, TodoTags, TodoTitle } from "../types"
+import { TodoDuedate, TodoPriority, TodoStatus, TodoTags, TodoTitle } from "../types"
 
 interface Props {
+    name: string,
     saveTodo: (
         { title }: TodoTitle,
         { priority }: TodoPriority,
         { dueDate }: TodoDuedate,
-        { tags }: TodoTags
+        { tags }: TodoTags,
+        {status} : TodoStatus
     ) => void
 }
 
-export const Header: React.FC<Props> = ({ saveTodo }) => {
+export const NewCard: React.FC<Props> = ({ name,saveTodo }) => {
     const [values, setValues] = useState({
         title: '',
         priority: '',
         dueDate: '',
-        tags: ''
+        tags: '',
+        name:''
 
     })
     console.log(values);
@@ -25,12 +28,13 @@ export const Header: React.FC<Props> = ({ saveTodo }) => {
 
     const handleSubmit = (e: React.KeyboardEvent<HTMLFormElement>): void => {
         e.preventDefault()
-        saveTodo({ title: values.title }, { priority: values.priority }, { dueDate: values.dueDate }, { tags: values.tags })
+        saveTodo({ title: values.title }, { priority: values.priority }, { dueDate: values.dueDate }, { tags: values.tags },{status: name})
         setValues({
             title: '',
             priority: '',
             dueDate: '',
-            tags: ''
+            tags: '',
+            name
         })
         closeModal()
     }
