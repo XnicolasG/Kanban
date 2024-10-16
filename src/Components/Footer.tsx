@@ -2,7 +2,6 @@ import React from 'react'
 import { Filter } from './Filter'
 import { FilterValue } from '../types'
 interface Props {
-  activeCount: number,
   completedCount: number,
   filterSelected: FilterValue,
   handleFilterChange: (filter: FilterValue) => void,
@@ -10,7 +9,6 @@ interface Props {
 }
 
 export const Footer: React.FC<Props> = ({
-  activeCount = 0,
   completedCount = 0,
   filterSelected,
   handleFilterChange,
@@ -18,9 +16,6 @@ export const Footer: React.FC<Props> = ({
 }) => {
   return (
     <footer className='w-full flex justify-around px-3 my-2 items-center'>
-      <span>
-        <strong>{activeCount}</strong>
-      </span>
       <Filter
         filterSelected={filterSelected}
         onFilterChange={handleFilterChange}

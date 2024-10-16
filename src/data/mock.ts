@@ -1,4 +1,6 @@
-export const mockTodos = [
+
+
+export const mockTodos = () => [
     {
       id: '1',
       title: 'Hacer almuerzo',

@@ -1,17 +1,18 @@
 import React, { useEffect, useRef, useState } from "react"
-import { TodoId, Todo as TodoType } from '../types'
+import { ListOfTodos, TodoId, Todo as TodoType } from '../types'
 import { draggable, dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { setCustomNativeDragPreview } from '@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview'
 import { combine } from '@atlaskit/pragmatic-drag-and-drop/combine'
 import { createPortal } from "react-dom";
+import { Trash } from "../icons/Trash";
 
 interface Props extends TodoType {
     onRemoveTodo: ({ id }: TodoId) => void
-    onComplete: ({ id, completed }: Pick<TodoType, 'id' | 'completed'>) => void
-
+    moveCard:any
+    todo: any
 }
 
-export const Cards: React.FC<Props> = ({ id, title, completed, priority, dueDate, tags, onRemoveTodo, onComplete }) => {
+export const Cards: React.FC<Props> = ({ id, title, completed, priority, dueDate, tags, onRemoveTodo,moveCard,todo }) => {
     const [isDragging, setDragging] = useState(false)
     const [preview, setPreview] = useState<HTMLElement | null>();
     const cardRef = useRef(null)
@@ -29,7 +30,7 @@ export const Cards: React.FC<Props> = ({ id, title, completed, priority, dueDate
             draggable({
                 element,
                 getInitialData() {
-                    return { id }
+                    return todo
                 },
                 onDragStart() {
                     setDragging(true)
@@ -50,10 +51,10 @@ export const Cards: React.FC<Props> = ({ id, title, completed, priority, dueDate
             dropTargetForElements({
                 element,
                 getData() {
-                    return { id }
+                    return todo
                 },
                 onDrop({source,self}) {
-                    console.log(source.data.id, self.data.id);
+                    console.log(source.data.id, self.data.title);
                 }
             })
         )
@@ -64,17 +65,9 @@ export const Cards: React.FC<Props> = ({ id, title, completed, priority, dueDate
             className={`bg-zinc-700/80 rounded p-2 flex flex-col w-full justify-between ${isDragging ? 'opacity-60 bg-gradient-to-br from-zinc-700/80 to-blue-900' : ''}`}>
             <div className="flex flex-col gap-2 p-2">
                 <article>
-                    <p className="text-gray-900 bg-lime-300 w-16 text-center rounded-xl">{tags}</p>
+                    <p className="text-gray-900 bg-lime-300 max-w-20 text-center rounded-xl">{tags}</p>
                 </article>
-                <input
-                    className="mx-1 "
-                    checked={completed}
-                    type="checkbox"
-                    onChange={(e) => {
-                        onComplete({ id, completed: e.target.checked })
-                    }}
-                />
-
+               
                 <label className={`${completed ? 'line-through' : ''} text-xl`} >{title}</label>
                 <article className="text-white flex justify-between">
                     <p className={` ${priority === 'low' ? 'text-green-400' : ''} 
@@ -87,10 +80,10 @@ export const Cards: React.FC<Props> = ({ id, title, completed, priority, dueDate
             ">
 
                 <button
-                    className="hover:bg-red-500  font-semibold ring-2 ring-transparent hover:ring-red-600 text-red-500 hover:text-white px-2 rounded transition-all duration-150"
+                    className=""
                     onClick={() => onRemoveTodo({ id })}
                 >
-                    Delete
+                    <Trash className="hover:text-red-600 transition-all duration-150" />
                 </button>
             </div>
             {preview && createPortal(<ToDoPreview title={title} />, preview)}

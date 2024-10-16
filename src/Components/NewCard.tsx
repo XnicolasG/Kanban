@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react"
 import { TodoDuedate, TodoPriority, TodoStatus, TodoTags, TodoTitle } from "../types"
+import { Plus } from "../icons/Plus"
 
 interface Props {
     name: string,
@@ -8,17 +9,17 @@ interface Props {
         { priority }: TodoPriority,
         { dueDate }: TodoDuedate,
         { tags }: TodoTags,
-        {status} : TodoStatus
+        { status }: TodoStatus
     ) => void
 }
 
-export const NewCard: React.FC<Props> = ({ name,saveTodo }) => {
+export const NewCard: React.FC<Props> = ({ name, saveTodo }) => {
     const [values, setValues] = useState({
         title: '',
         priority: '',
         dueDate: '',
         tags: '',
-        name:''
+        name: ''
 
     })
     console.log(values);
@@ -28,7 +29,7 @@ export const NewCard: React.FC<Props> = ({ name,saveTodo }) => {
 
     const handleSubmit = (e: React.KeyboardEvent<HTMLFormElement>): void => {
         e.preventDefault()
-        saveTodo({ title: values.title }, { priority: values.priority }, { dueDate: values.dueDate }, { tags: values.tags },{status: name})
+        saveTodo({ title: values.title }, { priority: values.priority }, { dueDate: values.dueDate }, { tags: values.tags }, { status: name })
         setValues({
             title: '',
             priority: '',
@@ -48,8 +49,14 @@ export const NewCard: React.FC<Props> = ({ name,saveTodo }) => {
         <header>
             <button
                 onClick={openModal}
-                className="w-40 font-semibold  rounded py-1 text-white bg-sky-600 hover:scale-110 transition-all duration-150">
-                Create new task
+                className="group w-26 pr-2 font-medium  rounded  text-white bg-sky-600 hover:bg-sky-700 transition-all  duration-150">
+                <p className="flex justify-between items-center gap-3">
+
+                    <span className=" flex items-center justify-center ring-4 font-bold text-xl ring-zinc-900 bg-slate-100 rounded-full text-sky-600 group-hover:scale-110 duration-150 ">
+                        <Plus />
+                    </span>
+                    new task
+                </p>
             </button>
             <dialog className="alert-dialog p-2 rounded bg-zinc-900 w-full md:w-1/2" ref={dialogRef}>
                 <button className="text-white text-xl absolute right-4 text-right hover:text-red-500 duration-150  " onClick={closeModal}>X</button>
