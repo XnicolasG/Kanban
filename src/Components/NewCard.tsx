@@ -1,19 +1,22 @@
 import React, { useRef, useState } from "react"
-import { TodoDuedate, TodoPriority, TodoStatus, TodoTags, TodoTitle } from "../types"
+// import { TodoDuedate, TodoPriority, TodoStatus, TodoTags, TodoTitle } from "../types"
 import { Plus } from "../icons/Plus"
+import { useTodoContext } from "../context/TodoContext"
 
 interface Props {
     name: string,
-    saveTodo: (
-        { title }: TodoTitle,
-        { priority }: TodoPriority,
-        { dueDate }: TodoDuedate,
-        { tags }: TodoTags,
-        { status }: TodoStatus
-    ) => void
+    // saveTodo: (
+    //     { title }: TodoTitle,
+    //     { priority }: TodoPriority,
+    //     { dueDate }: TodoDuedate,
+    //     { tags }: TodoTags,
+    //     { status }: TodoStatus
+    // ) => void
 }
 
-export const NewCard: React.FC<Props> = ({ name, saveTodo }) => {
+export const NewCard: React.FC<Props> = ({ name, }) => {
+    const {handleAddTodo} = useTodoContext()
+    
     const [values, setValues] = useState({
         title: '',
         priority: '',
@@ -22,14 +25,13 @@ export const NewCard: React.FC<Props> = ({ name, saveTodo }) => {
         name: ''
 
     })
-    console.log(values);
 
     const dialogRef = useRef<HTMLDialogElement>(null)
     const today = new Date().toISOString().split('T')[0];
 
     const handleSubmit = (e: React.KeyboardEvent<HTMLFormElement>): void => {
         e.preventDefault()
-        saveTodo({ title: values.title }, { priority: values.priority }, { dueDate: values.dueDate }, { tags: values.tags }, { status: name })
+        handleAddTodo({ title: values.title }, { priority: values.priority }, { dueDate: values.dueDate }, { tags: values.tags }, { status: name })
         setValues({
             title: '',
             priority: '',

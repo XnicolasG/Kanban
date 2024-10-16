@@ -1,22 +1,19 @@
 import { Cards } from './Cards'
-import { Todo as TodoType, TodoId, type ListOfTodos, TodoTitle, TodoPriority, TodoDuedate, TodoTags, TodoStatus } from '../types'
 import { NewCard } from './NewCard'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { useTodoContext } from '../context/TodoContext'
 
 interface Props {
-    todos: ListOfTodos
     name: string
-    moveCard: any
-    onRemoveTodo: ({ id }: TodoId) => void
-    onAddTodo: (
-        { title }: TodoTitle,
-        { priority }: TodoPriority,
-        { dueDate }: TodoDuedate,
-        { tags }: TodoTags,
-        { status }: TodoStatus) => void
 }
 
-export const Todos: React.FC<Props> = ({ todos, name, onRemoveTodo, onAddTodo, moveCard }) => {
+export const Todos: React.FC<Props> = ({ name, }) => {
+    const {
+        filteredTodos ,
+        moveCard,
+    } = useTodoContext()
+    console.log(filteredTodos);
+    
     const [animationParent] = useAutoAnimate()
 
     const handleDrop = (e: React.DragEvent<HTMLUListElement>) => {
@@ -36,27 +33,28 @@ export const Todos: React.FC<Props> = ({ todos, name, onRemoveTodo, onAddTodo, m
         <section
             onDrop={handleDrop}
             onDragOver={handleDragOver}
-            className='w-full bg-zinc-900 p-4 rounded-lg shadow-xl flex flex-col gap-2 items-center justify-start'>
+            className={`w-full ${name === 'todo' ? 'bg-gradient-to-b from-zinc-900 via-zinc-900 to-indigo-600/60 border-t-2 border-indigo-600 ' : name === 'doing' ? 'bg-gradient-to-b from-zinc-900 via-zinc-900  to-amber-400/60 border-t-2 border-amber-600' : 'bg-gradient-to-b from-zinc-900  via-zinc-900 to-emerald-600/60 border-t-2 border-emerald-600'}
+             bg-zinc-900 p-4 rounded-lg shadow-xl flex flex-col gap-2 items-center justify-start`}>
             <h1 className='text-slate-100 font-semibold text-xl'>
                 {name === 'todo' ? 'To Do' : name === 'doing' ? 'Doing' : 'Done'}
             </h1>
             <NewCard
                 name={name}
-                saveTodo={onAddTodo} />
+                />
             <ul
                 ref={animationParent}
                 className='w-full flex flex-col gap-2'
             >
                 {
-                    todos.filter((todo) => todo.status === name).length === 0
+                    filteredTodos.filter((todo) => todo.status === name).length === 0
                         ? (
 
                             <h1 className='text-white text-center font-semibold'>Add a new task</h1>
                         )
                         :
-                        todos.filter((todo) => todo.status === name)
+                        filteredTodos.filter((todo) => todo.status === name)
                             .map((todo) => {
-                                console.log(todo.title, todo.status )
+                                console.log(todo.title, todo.status)
 
                                 return (
                                     <li
@@ -72,9 +70,7 @@ export const Todos: React.FC<Props> = ({ todos, name, onRemoveTodo, onAddTodo, m
                                             tags={todo.tags}
                                             status={todo.status}
                                             completed={todo.completed}
-                                            onRemoveTodo={onRemoveTodo}
                                             todo={todo}
-                                            moveCard={moveCard}
                                         />
                                     </li>
                                 )

@@ -1,30 +1,31 @@
 import React, { useEffect, useRef, useState } from "react"
-import { ListOfTodos, TodoId, Todo as TodoType } from '../types'
-import { draggable, dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
+import { Todo as TodoType } from '../types'
+import { draggable} from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { setCustomNativeDragPreview } from '@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview'
 import { combine } from '@atlaskit/pragmatic-drag-and-drop/combine'
 import { createPortal } from "react-dom";
 import { Trash } from "../icons/Trash";
+import { useTodoContext } from "../context/TodoContext";
 
 interface Props extends TodoType {
-    onRemoveTodo: ({ id }: TodoId) => void
-    moveCard:any
+    // onRemoveTodo: ({ id }: TodoId) => void
     todo: any
 }
 
-export const Cards: React.FC<Props> = ({ id, title, completed, priority, dueDate, tags, onRemoveTodo,moveCard,todo }) => {
+export const Cards: React.FC<Props> = ({ id, title, completed, priority, dueDate, tags, todo }) => {
     const [isDragging, setDragging] = useState(false)
     const [preview, setPreview] = useState<HTMLElement | null>();
     const cardRef = useRef(null)
+    const {handleRemoveTodo} = useTodoContext()
 
+    console.log(todo);
+    
 
     useEffect(() => {
         const element = cardRef.current;
         if (!element) {
             return;
         }
-
-
         return combine(
 
             draggable({
@@ -48,15 +49,6 @@ export const Cards: React.FC<Props> = ({ id, title, completed, priority, dueDate
                     })
                 }
             }),
-            // dropTargetForElements({
-            //     element,
-            //     getData() {
-            //         return todo
-            //     },
-            //     onDrop({source,self}) {
-            //         console.log(source.data.id, self.data.title);
-            //     }
-            // })
         )
     }, [id, todo])
 
@@ -87,7 +79,7 @@ export const Cards: React.FC<Props> = ({ id, title, completed, priority, dueDate
 
                 <button
                     className=""
-                    onClick={() => onRemoveTodo({ id })}
+                    onClick={() => handleRemoveTodo({ id })}
                 >
                     <Trash className="hover:text-red-600 transition-all duration-150" />
                 </button>

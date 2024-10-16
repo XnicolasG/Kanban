@@ -1,18 +1,18 @@
-import React from 'react'
+
 import { FilterValue } from '../types'
 import { FILTERS_BUTTONS } from '../const'
+import { useTodoContext } from '../context/TodoContext'
 
-interface Props {
-  filterSelected: FilterValue
-  onFilterChange: (filter: FilterValue) => void
-}
+// interface Props {
+//   filterSelected: FilterValue
+//   onFilterChange: (filter: FilterValue) => void
+// }
 
 
 
-export const Filter: React.FC<Props> = ({
-  filterSelected, onFilterChange
-}) => {
-  
+export const Filter = () => {
+  const {filterSelected,
+    handleFilterChange} = useTodoContext()
   return (
     <ul className='flex justify-between w-1/2'>
       {
@@ -28,7 +28,7 @@ export const Filter: React.FC<Props> = ({
                 className={className}
                 onClick={(e) => {
                   e.preventDefault()
-                  onFilterChange(key as FilterValue)
+                  handleFilterChange(key as FilterValue)
                 }
                 }
               >
