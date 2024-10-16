@@ -1,4 +1,4 @@
-import {  useState } from "react"
+import { useState } from "react"
 import { Todos } from "./Components/Todos"
 import { FilterValue, TodoDuedate, TodoId, TodoPriority, TodoTags, TodoStatus, TodoTitle, Todo as TodoType } from "./types"
 import { TODO_FILTERS } from "./const"
@@ -11,9 +11,16 @@ const App = (): JSX.Element => {
   const [filterSelected, setFilterSelected] = useState<FilterValue>(TODO_FILTERS.ALL)
 
   const moveCard = (id: string, newStatus: string) => {
-    // setTodos((prevStatus) => {
-    //   return 
-    // })
+    setTodos((prevStatus) => {
+      const updateTodos = prevStatus.map((todo) => {
+        if (todo.id === id) {
+          return { ...todo, 
+          status: newStatus }
+        }
+        return todo;
+      })
+      return updateTodos
+    })
   }
 
   const columns: TodoStatus[] = [

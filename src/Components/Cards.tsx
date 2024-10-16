@@ -48,20 +48,26 @@ export const Cards: React.FC<Props> = ({ id, title, completed, priority, dueDate
                     })
                 }
             }),
-            dropTargetForElements({
-                element,
-                getData() {
-                    return todo
-                },
-                onDrop({source,self}) {
-                    console.log(source.data.id, self.data.title);
-                }
-            })
+            // dropTargetForElements({
+            //     element,
+            //     getData() {
+            //         return todo
+            //     },
+            //     onDrop({source,self}) {
+            //         console.log(source.data.id, self.data.title);
+            //     }
+            // })
         )
-    }, [id])
+    }, [id, todo])
+
+    const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
+        e.dataTransfer.setData('text/plain', JSON.stringify(todo))
+    }
+
     return (
         <div
             ref={cardRef}
+            onDragStart={handleDragStart}
             className={`bg-zinc-700/80 rounded p-2 flex flex-col w-full justify-between ${isDragging ? 'opacity-60 bg-gradient-to-br from-zinc-700/80 to-blue-900' : ''}`}>
             <div className="flex flex-col gap-2 p-2">
                 <article>
