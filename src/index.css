@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Pangaia';
+  src: url('/fonts/Pangaia.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Talisman';
+  src: url('/fonts/Talisman.otf') format('opentype');
+}
 @layer components {
     .alert-dialog::backdrop {
       background: linear-gradient(#000d, #000a);

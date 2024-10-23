@@ -5,7 +5,12 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily:{
+      pangaia: ['Pangaia', 'sans-serif'],
+      talisman: ['Talisman', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 }

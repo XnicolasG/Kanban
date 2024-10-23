@@ -15,7 +15,7 @@ export const DateHeader: React.FC = () => {
                 <p className='border-b border-slate-100'>{monthName}</p>
                 <p>{dayName}</p>
             </div>
-            <p className='text-4xl'>{day}</p>
+            <p className='text-5xl text-teal-400'>{day}</p>
         </article>
     )
 }

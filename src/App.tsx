@@ -7,8 +7,10 @@ const App = (): JSX.Element => {
 
   return (
     <TodoProvider>
+      <main className="bg-slate-100 h-screen font-talisman">
       <Header />
       <Board />
+      </main>
     </TodoProvider>
   )
 }
