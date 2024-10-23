@@ -1,7 +1,7 @@
 import  React from 'react'
 import { TodoStatus } from '../../types'
 import { Todos } from '../../Components/Todos'
-import { Footer } from '../Footer/Footer'
+import { Filters } from '../Filters/Filters'
 import { useTodoContext } from '../../context/TodoContext'
 
 export const Board: React.FC = () => {
@@ -14,8 +14,8 @@ export const Board: React.FC = () => {
   ];
 
   return (
-    <section className="bg-slate-100 h-svh flex flex-col items-center justify-center">
-    <h1 className="text-2xl my-4">Take control on your tasks ({todos.length})</h1>
+    <section className="bg-slate-100 mt-10 flex flex-col items-center justify-center">
+      <Filters />
     <div className="w-full flex gap-4 px-8 lg:w-[80%] items-start ">
       {
         columns.map((column) => (
@@ -27,7 +27,6 @@ export const Board: React.FC = () => {
       }
 
     </div>
-    <Footer />
   </section>
   )
 }

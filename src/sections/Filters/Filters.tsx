@@ -7,10 +7,10 @@ import { Filter } from '../../Components/Filter'
 //   handleFilterChange: (filter: FilterValue) => void,
 // }
 
-export const Footer = () => {
+export const Filters = () => {
   return (
-    <footer className='w-full flex justify-around px-3 my-2 items-center'>
+    <section className='w-full flex justify-around px-3 my-2 items-center'>
       <Filter />
-    </footer>
+    </section>
   )
 }

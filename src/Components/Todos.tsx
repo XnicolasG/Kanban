@@ -9,11 +9,11 @@ interface Props {
 
 export const Todos: React.FC<Props> = ({ name, }) => {
     const {
-        filteredTodos ,
+        filteredTodos,
         moveCard,
     } = useTodoContext()
     console.log(filteredTodos);
-    
+
     const [animationParent] = useAutoAnimate()
 
     const handleDrop = (e: React.DragEvent<HTMLUListElement>) => {
@@ -40,7 +40,7 @@ export const Todos: React.FC<Props> = ({ name, }) => {
             </h1>
             <NewCard
                 name={name}
-                />
+            />
             <ul
                 ref={animationParent}
                 className='w-full flex flex-col gap-2'
@@ -75,7 +75,7 @@ export const Todos: React.FC<Props> = ({ name, }) => {
                                     </li>
                                 )
                             }
-                            )
+                        )
                 }
             </ul>
         </section>
