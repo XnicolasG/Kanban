@@ -13,9 +13,9 @@ export const Board: React.FC = () => {
 
 
   return (
-    <section className=" mt-10 overflow-x-auto flex flex-col items-center justify-center">
+    <section className="w-full mt-10  flex flex-col items-center justify-center">
       <Filters />
-      <div className="w-full 
+      <div className="w-full overflow-x-auto
      flex gap-4 px-8 lg:w-[80%] md:justify-center items-start py-8 ">
         {
           columns.map((column) => (

@@ -14,7 +14,7 @@ export const Filter = () => {
   const {filterSelected,
     handleFilterChange} = useTodoContext()
   return (
-    <ul className='flex justify-between w-1/2'>
+    <ul className='flex justify-between w-full md:w-1/2'>
       {
         Object.entries(FILTERS_BUTTONS).map(([key, { href, text }]) => {
           const isSelected = key === filterSelected;
