@@ -4,13 +4,13 @@ import { useTodoContext } from '../../../context/TodoContext';
 export const Tasks:React.FC = () => {
     const { todos } = useTodoContext()
     console.log(todos);
-    const pendingTodos = todos.filter((todo) => todo.status !== 'done').length
+    const pendingTodos = todos.filter((todo) => todo.status === 'done').length
   return (
     <article className='flex flex-col items-center'>
                 <h4 className='text-lg'>Tasks</h4>
                 <div className='flex text-2xl'>
                     <p>
-                        {pendingTodos}
+                        {pendingTodos} 
                     </p>
                     /
                     <p>
