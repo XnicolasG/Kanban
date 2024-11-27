@@ -8,6 +8,7 @@ import { FilterValue, TodoDuedate, TodoId, TodoPriority, TodoStatus, TodoTags, T
 export const useTodos = () => {
     const [todos, setTodos] = useState(mockTodos)
     const [filterSelected, setFilterSelected] = useState<FilterValue>(TODO_FILTERS.ALL)
+    const [search, setSearch] = useState('')
 
     const handleAddTodo = (
         { title }: TodoTitle,
@@ -52,7 +53,9 @@ export const useTodos = () => {
         if (filterSelected === TODO_FILTERS.LOW) return todo.priority === 'low'
         if (filterSelected === TODO_FILTERS.MEDIUM) return todo.priority === 'medium'
         if (filterSelected === TODO_FILTERS.HIGH) return todo.priority === 'high'
-        return todo
+
+        if (search.trim() !== '') return todo.title.toLowerCase().includes(search.toLowerCase());
+        return true;
       })
 
     const handleFilterChange = (filter: FilterValue): void => {
@@ -64,6 +67,8 @@ export const useTodos = () => {
         setTodos,
         filterSelected,
         setFilterSelected,
+        search, 
+        setSearch,
         handleAddTodo,
         handleRemoveTodo,
         filteredTodos,

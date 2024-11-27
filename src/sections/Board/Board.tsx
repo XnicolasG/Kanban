@@ -2,6 +2,7 @@ import React from 'react'
 import { TodoStatus } from '../../types'
 import { Todos } from '../../Components/Todos'
 import { Filters } from '../Filters/Filters'
+import { Search } from '../../Components/Search'
 
 export const Board: React.FC = () => {
 
@@ -14,9 +15,11 @@ export const Board: React.FC = () => {
 
   return (
     <section className="w-full mt-10  flex flex-col items-center justify-center">
+      
+      <Search />
       <Filters />
       <div className="w-full overflow-x-auto
-     flex gap-4 px-8 lg:w-[80%] md:justify-center items-start py-8 ">
+     flex gap-4 px-8 lg:w-[90%]  items-start py-8 ">
         {
           columns.map((column) => (
             <Todos

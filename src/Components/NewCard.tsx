@@ -61,7 +61,10 @@ export const NewCard: React.FC<Props> = ({ name, }) => {
                 </p>
             </button>
             <dialog className="alert-dialog p-2 rounded bg-zinc-900 w-full md:w-1/2" ref={dialogRef}>
-                <button className="text-white text-xl absolute right-4 text-right hover:text-red-500 duration-150  " onClick={closeModal}>X</button>
+                <button className="text-white text-xl absolute right-4 text-right hover:text-red-500 duration-150  " onClick={closeModal}>
+                    {/* <Plus  /> */}
+                    X
+                </button>
                 <form
                     onSubmit={handleSubmit}
                 >
