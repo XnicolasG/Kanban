@@ -18,7 +18,7 @@ export const Todos: React.FC<Props> = ({ name, }) => {
 
     const handleDrop = (e: React.DragEvent<HTMLUListElement>) => {
         e.preventDefault();
-        const data: any = e.dataTransfer?.getData('text/plain')
+        const data: string = e.dataTransfer?.getData('text/plain')
         const droppedTodo = JSON.parse(data)
 
         moveCard(droppedTodo.id, name)

@@ -3,15 +3,15 @@ import React, { useRef, useState } from "react"
 import { Plus } from "../icons/Plus"
 import { useTodoContext } from "../context/TodoContext"
 
+// saveTodo: (
+//     { title }: TodoTitle,
+//     { priority }: TodoPriority,
+//     { dueDate }: TodoDuedate,
+//     { tags }: TodoTags,
+//     { status }: TodoStatus
+// ) => void
 interface Props {
     name: string,
-    // saveTodo: (
-    //     { title }: TodoTitle,
-    //     { priority }: TodoPriority,
-    //     { dueDate }: TodoDuedate,
-    //     { tags }: TodoTags,
-    //     { status }: TodoStatus
-    // ) => void
 }
 
 export const NewCard: React.FC<Props> = ({ name, }) => {

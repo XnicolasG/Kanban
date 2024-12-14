@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from "react"
 import { Todo as TodoType } from '../types'
-import { draggable} from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
+import { draggable } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { setCustomNativeDragPreview } from '@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview'
 import { combine } from '@atlaskit/pragmatic-drag-and-drop/combine'
 import { createPortal } from "react-dom";
 import { Trash } from "../icons/Trash";
 import { useTodoContext } from "../context/TodoContext";
+import { Edit } from "../icons/Edit";
 
 interface Props extends TodoType {
     // onRemoveTodo: ({ id }: TodoId) => void
@@ -16,10 +17,10 @@ export const Cards: React.FC<Props> = ({ id, title, completed, priority, dueDate
     const [isDragging, setDragging] = useState(false)
     const [preview, setPreview] = useState<HTMLElement | null>();
     const cardRef = useRef(null)
-    const {handleRemoveTodo} = useTodoContext()
+    const { handleRemoveTodo } = useTodoContext()
 
     console.log(todo);
-    
+
 
     useEffect(() => {
         const element = cardRef.current;
@@ -65,7 +66,7 @@ export const Cards: React.FC<Props> = ({ id, title, completed, priority, dueDate
                 <article>
                     <p className="text-gray-900 bg-lime-300 max-w-20 text-center rounded-xl">{tags}</p>
                 </article>
-               
+
                 <label className={`${completed ? 'line-through' : ''} text-xl`} >{title}</label>
                 <article className="text-white flex justify-between">
                     <p className={` ${priority === 'low' ? 'text-green-400' : ''} 
@@ -74,14 +75,17 @@ export const Cards: React.FC<Props> = ({ id, title, completed, priority, dueDate
                     <p className="text-slate-100/80 text-sm">{dueDate}</p>
                 </article>
             </div>
-            <div className="mx-auto p-1
+            <div className="mx-auto p-1 flex w-full justify-around
             ">
 
+                <button>
+                    <Edit className="hover:text-teal-400" />
+                </button>
                 <button
                     className=""
                     onClick={() => handleRemoveTodo({ id })}
                 >
-                    <Trash className="hover:text-red-600 transition-all duration-150" />
+                    <Trash className="hover:text-red-500 transition-all duration-150" />
                 </button>
             </div>
             {preview && createPortal(<ToDoPreview title={title} />, preview)}
