@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react"
 // import { TodoDuedate, TodoPriority, TodoStatus, TodoTags, TodoTitle } from "../types"
 import { Plus } from "../icons/Plus"
 import { useTodoContext } from "../context/TodoContext"
+import { Modal } from "./Modal"
 
 // saveTodo: (
 //     { title }: TodoTitle,
@@ -15,6 +16,7 @@ interface Props {
 }
 
 export const NewCard: React.FC<Props> = ({ name, }) => {
+    const [isModalOpen, setIsModalOpen] = useState(false)
     const {handleAddTodo} = useTodoContext()
     
     const [values, setValues] = useState({
@@ -26,7 +28,6 @@ export const NewCard: React.FC<Props> = ({ name, }) => {
 
     })
 
-    const dialogRef = useRef<HTMLDialogElement>(null)
     const today = new Date().toISOString().split('T')[0];
 
     const handleSubmit = (e: React.KeyboardEvent<HTMLFormElement>): void => {
@@ -39,18 +40,12 @@ export const NewCard: React.FC<Props> = ({ name, }) => {
             tags: '',
             name
         })
-        closeModal()
-    }
-    const openModal = () => {
-        dialogRef.current?.showModal()
-    }
-    const closeModal = () => {
-        dialogRef.current?.close()
+        setIsModalOpen(false)
     }
     return (
         <header>
             <button
-                onClick={openModal}
+                onClick={() => setIsModalOpen(true)}
                 className="group w-26 pr-2 font-medium  rounded  text-white bg-sky-600 hover:bg-sky-700 transition-all  duration-150">
                 <p className="flex justify-between items-center gap-3">
 
@@ -60,11 +55,7 @@ export const NewCard: React.FC<Props> = ({ name, }) => {
                     new task
                 </p>
             </button>
-            <dialog className="alert-dialog p-2 rounded bg-zinc-900 w-full md:w-1/2" ref={dialogRef}>
-                <button className="text-white text-xl absolute right-4 text-right hover:text-red-500 duration-150  " onClick={closeModal}>
-                    {/* <Plus  /> */}
-                    X
-                </button>
+            <Modal isOpen={isModalOpen} onClose={()=> setIsModalOpen(false)} title="New Task">
                 <form
                     onSubmit={handleSubmit}
                 >
@@ -108,7 +99,7 @@ export const NewCard: React.FC<Props> = ({ name, }) => {
                         >create</button>
                     </div>
                 </form>
-            </dialog>
+            </Modal>
         </header>
     )
 }

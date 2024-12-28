@@ -9,12 +9,15 @@ interface TodoContextType {
     setFilterSelected: React.Dispatch<React.SetStateAction<FilterValue>>;
     search: string;
     setSearch: React.Dispatch<React.SetStateAction<string>>;
+    editTodo: Todo | null;
+    setEditTodo: React.Dispatch<React.SetStateAction<Todo | null>>;
     filterSelected: FilterValue;
     handleAddTodo: (title: TodoTitle, priority: TodoPriority, dueDate: TodoDuedate, tags: TodoTags, status: TodoStatus) => void;
     handleRemoveTodo: (id: TodoId) => void;
+    updateTodo: (todo: Partial<Todo> & TodoId) => void;
     moveCard: (id: string, newStatus: Todo['status']) => void;
     handleFilterChange: (filter: FilterValue) => void;
-  }
+}
 
 const TodoContext = createContext<TodoContextType | null>(null)
 
@@ -27,11 +30,14 @@ export const TodoProvider = ({ children }: { children: React.ReactNode }) => {
         setFilterSelected,
         search,
         setSearch,
+        editTodo,
+        setEditTodo,
         handleAddTodo,
         handleRemoveTodo,
         filteredTodos,
         handleFilterChange,
-        moveCard
+        moveCard,
+        updateTodo
     } = useTodos()
 
     return (
@@ -43,10 +49,13 @@ export const TodoProvider = ({ children }: { children: React.ReactNode }) => {
                 setFilterSelected,
                 search,
                 setSearch,
+                editTodo,
+                setEditTodo,
                 handleAddTodo,
                 handleRemoveTodo,
                 filteredTodos,
                 handleFilterChange,
+                updateTodo,
                 moveCard
             }}
         >

@@ -1,7 +1,7 @@
 import  { useState } from 'react'
 import { mockTodos } from '../../data/mock'
 import { TODO_FILTERS } from '../../const'
-import { FilterValue, TodoDuedate, TodoId, TodoPriority, TodoStatus, TodoTags, TodoTitle } from '../../types'
+import { FilterValue, Todo, TodoDuedate, TodoId, TodoPriority, TodoStatus, TodoTags, TodoTitle } from '../../types'
 
 
 
@@ -9,6 +9,7 @@ export const useTodos = () => {
     const [todos, setTodos] = useState(mockTodos)
     const [filterSelected, setFilterSelected] = useState<FilterValue>(TODO_FILTERS.ALL)
     const [search, setSearch] = useState('')
+    const [editTodo, setEditTodo] = useState<Todo | null>(null)
 
     const handleAddTodo = (
         { title }: TodoTitle,
@@ -34,6 +35,14 @@ export const useTodos = () => {
         setTodos((prev) => prev.filter(todo => todo.id !== id))
     }
 
+    const updateTodo = ({ id, ...updatedFields }: Partial<Todo> & TodoId): void => {
+        setTodos((prevTodos) =>
+            prevTodos.map((todo) =>
+                todo.id === id ? { ...todo, ...updatedFields } : todo
+            )
+        );
+    };
+    
     const moveCard = (id: string, newStatus: string) => {
         setTodos((prevStatus) => {
             const updateTodos = prevStatus.map((todo) => {
@@ -69,10 +78,13 @@ export const useTodos = () => {
         setFilterSelected,
         search, 
         setSearch,
+        editTodo, 
+        setEditTodo,
         handleAddTodo,
         handleRemoveTodo,
         filteredTodos,
         handleFilterChange,
-        moveCard
+        moveCard,
+        updateTodo
     }
 }

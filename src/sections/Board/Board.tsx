@@ -19,7 +19,7 @@ export const Board: React.FC = () => {
       <Search />
       <Filters />
       <div className="w-full overflow-x-auto
-     flex gap-4 px-8 lg:w-[90%]  items-start md:justify-center py-8 ">
+     flex gap-4 px-8 lg:w-[90%]  items-start xl:justify-center py-8 ">
         {
           columns.map((column) => (
             <Todos

@@ -7,6 +7,8 @@ import { createPortal } from "react-dom";
 import { Trash } from "../icons/Trash";
 import { useTodoContext } from "../context/TodoContext";
 import { Edit } from "../icons/Edit";
+import { Modal } from "./Modal";
+import { EditTodoForm } from "./EditTodoForm";
 
 interface Props extends TodoType {
     // onRemoveTodo: ({ id }: TodoId) => void
@@ -16,11 +18,11 @@ interface Props extends TodoType {
 export const Cards: React.FC<Props> = ({ id, title, completed, priority, dueDate, tags, todo }) => {
     const [isDragging, setDragging] = useState(false)
     const [preview, setPreview] = useState<HTMLElement | null>();
+    const [isModalOpen, setIsModalOpen] = useState(false)
     const cardRef = useRef(null)
-    const { handleRemoveTodo } = useTodoContext()
+    const { handleRemoveTodo, updateTodo} = useTodoContext()
 
-    console.log(todo);
-
+    // const hanldeEditSave = ()
 
     useEffect(() => {
         const element = cardRef.current;
@@ -56,7 +58,10 @@ export const Cards: React.FC<Props> = ({ id, title, completed, priority, dueDate
     const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
         e.dataTransfer.setData('text/plain', JSON.stringify(todo))
     }
-
+    const handleSave = (updatedTodo: Partial<TodoType> & { id: string }) => {
+        updateTodo(updatedTodo);  
+        setIsModalOpen(false); 
+    };
     return (
         <div
             ref={cardRef}
@@ -78,8 +83,11 @@ export const Cards: React.FC<Props> = ({ id, title, completed, priority, dueDate
             <div className="mx-auto p-1 flex w-full justify-around
             ">
 
-                <button>
-                    <Edit className="hover:text-teal-400" />
+                <button
+                   onClick={()=> setIsModalOpen(true)}
+                >
+                    <Edit 
+                    className="hover:text-teal-400" />
                 </button>
                 <button
                     className=""
@@ -88,6 +96,11 @@ export const Cards: React.FC<Props> = ({ id, title, completed, priority, dueDate
                     <Trash className="hover:text-red-500 transition-all duration-150" />
                 </button>
             </div>
+
+            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+                <EditTodoForm todo={todo} onSave={()=>handleSave} />
+            </Modal>
+
             {preview && createPortal(<ToDoPreview title={title} />, preview)}
         </div>
     )
