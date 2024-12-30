@@ -31,17 +31,19 @@ export const useTodos = () => {
         setTodos(prev => [...prev, newTodo]);
     }
 
-    const handleRemoveTodo = ({ id }: TodoId) => {
-        setTodos((prev) => prev.filter(todo => todo.id !== id))
-    }
-
     const updateTodo = ({ id, ...updatedFields }: Partial<Todo> & TodoId): void => {
+        console.log(id);
+        
         setTodos((prevTodos) =>
             prevTodos.map((todo) =>
                 todo.id === id ? { ...todo, ...updatedFields } : todo
             )
         );
     };
+    const handleRemoveTodo = ({ id }: TodoId) => {
+        setTodos((prev) => prev.filter(todo => todo.id !== id))
+    }
+
     
     const moveCard = (id: string, newStatus: string) => {
         setTodos((prevStatus) => {

@@ -98,7 +98,7 @@ export const Cards: React.FC<Props> = ({ id, title, completed, priority, dueDate
             </div>
 
             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-                <EditTodoForm todo={todo} onSave={()=>handleSave} />
+                <EditTodoForm todo={todo} onSave={handleSave} />
             </Modal>
 
             {preview && createPortal(<ToDoPreview title={title} />, preview)}
