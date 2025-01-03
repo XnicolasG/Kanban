@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react"
+import React, { useState } from "react"
 // import { TodoDuedate, TodoPriority, TodoStatus, TodoTags, TodoTitle } from "../types"
 import { Plus } from "../icons/Plus"
 import { useTodoContext } from "../context/TodoContext"
@@ -49,8 +49,8 @@ export const NewCard: React.FC<Props> = ({ name, }) => {
                 className="group w-26 pr-2 font-medium  rounded  text-white bg-sky-600 hover:bg-sky-700 transition-all  duration-150">
                 <p className="flex justify-between items-center gap-3">
 
-                    <span className=" flex items-center justify-center ring-4 font-bold text-xl ring-zinc-900 bg-slate-100 rounded-full text-sky-600 group-hover:scale-110 duration-150 ">
-                        <Plus />
+                    <span className=" flex items-center justify-center ring-4 font-bold text-xl ring-zinc-900 bg-slate-100 rounded-full group-hover:scale-110 duration-150 ">
+                        <Plus className={`text-sky-600`} />
                     </span>
                     new task
                 </p>
