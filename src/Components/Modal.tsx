@@ -29,7 +29,7 @@ interface ModalProps {
       <dialog
         ref={dialogRef}
         onClick={handleOutsideClick}
-        className={`alert-dialog p-4 rounded bg-zinc-900 w-full md:w-1/2 ${className}`}
+        className={`alert-dialog p-4 rounded bg-zinc-900 w-full md:w-1/2 ${className} transition-all duration-150`}
       >
         <button
           className="text-white text-xl absolute right-4 hover:text-red-500 duration-150"
