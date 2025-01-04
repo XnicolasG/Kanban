@@ -1,15 +1,29 @@
-import  { useState } from 'react'
-import { mockTodos } from '../../data/mock'
+import  { useEffect, useState } from 'react'
+// import { mockTodos } from '../../data/mock'
 import { TODO_FILTERS } from '../../const'
 import { FilterValue, Todo, TodoDuedate, TodoId, TodoPriority, TodoStatus, TodoTags, TodoTitle } from '../../types'
+import { getData } from '../../utils/api'
 
 
 
 export const useTodos = () => {
-    const [todos, setTodos] = useState(mockTodos)
+    const [todos, setTodos] = useState<Todo[]>([])
     const [filterSelected, setFilterSelected] = useState<FilterValue>(TODO_FILTERS.ALL)
     const [search, setSearch] = useState('')
     const [editTodo, setEditTodo] = useState<Todo | null>(null)
+
+    useEffect(()=>{
+        const fetchTodos = async() => {
+            try {
+                const data = await getData()
+                setTodos(data)
+            } catch (error) {
+                console.log("useTodos' error");
+                throw error
+            }
+        }
+        fetchTodos()
+    },[])
 
     const handleAddTodo = (
         { title }: TodoTitle,
@@ -60,7 +74,8 @@ export const useTodos = () => {
         })
     }
 
-    const filteredTodos = todos.filter(todo => {
+    const filteredTodos = todos?.length
+    ? todos.filter(todo => {
         if (filterSelected === TODO_FILTERS.LOW) return todo.priority === 'low'
         if (filterSelected === TODO_FILTERS.MEDIUM) return todo.priority === 'medium'
         if (filterSelected === TODO_FILTERS.HIGH) return todo.priority === 'high'
@@ -68,6 +83,7 @@ export const useTodos = () => {
         if (search.trim() !== '') return todo.title.toLowerCase().includes(search.toLowerCase());
         return true;
       })
+      : [];
 
     const handleFilterChange = (filter: FilterValue): void => {
         setFilterSelected(filter)

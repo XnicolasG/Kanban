@@ -17,4 +17,7 @@
     .modalInput{
         @apply bg-zinc-700 rounded px-2 text-white
     }
+    .label{
+      @apply  text-white
+    }
   }

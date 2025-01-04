@@ -95,7 +95,7 @@ export const NewCard: React.FC<Props> = ({ name, }) => {
                                 required />
                         </article>
                         <button
-                            className="w-36 mx-auto py-1 bg-sky-500 text-white rounded mt-2 hover:bg-sky-600 duration-150"
+                            className="w-40 mx-auto py-1 bg-sky-500 text-white rounded mt-2 hover:bg-sky-600 duration-150"
                         >create</button>
                     </div>
                 </form>
