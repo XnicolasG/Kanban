@@ -11,6 +11,7 @@ export const Todos: React.FC<Props> = ({ name, }) => {
     const {
         filteredTodos,
         moveCard,
+        loading
     } = useTodoContext()
     console.log(filteredTodos);
 
@@ -49,7 +50,7 @@ export const Todos: React.FC<Props> = ({ name, }) => {
                     filteredTodos.filter((todo) => todo.status === name).length === 0
                         ? (
 
-                            <h1 className='text-white text-center font-semibold'>Add a new task</h1>
+                            <h1 className='text-white text-center font-semibold'>{loading ? 'Loading ...' : 'Add a new task'} </h1>
                         )
                         :
                         filteredTodos.filter((todo) => todo.status === name)

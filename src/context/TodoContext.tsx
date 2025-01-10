@@ -11,6 +11,7 @@ interface TodoContextType {
     setSearch: React.Dispatch<React.SetStateAction<string>>;
     editTodo: Todo | null;
     setEditTodo: React.Dispatch<React.SetStateAction<Todo | null>>;
+    loading: boolean;
     filterSelected: FilterValue;
     handleAddTodo: (title: TodoTitle, priority: TodoPriority, dueDate: TodoDuedate, tags: TodoTags, status: TodoStatus) => void;
     handleRemoveTodo: (id: TodoId) => void;
@@ -32,6 +33,7 @@ export const TodoProvider = ({ children }: { children: React.ReactNode }) => {
         setSearch,
         editTodo,
         setEditTodo,
+        loading,
         handleAddTodo,
         handleRemoveTodo,
         filteredTodos,
@@ -51,6 +53,7 @@ export const TodoProvider = ({ children }: { children: React.ReactNode }) => {
                 setSearch,
                 editTodo,
                 setEditTodo,
+                loading,
                 handleAddTodo,
                 handleRemoveTodo,
                 filteredTodos,
