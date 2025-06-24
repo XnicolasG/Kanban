@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 // import { mockTodos } from '../../data/mock'
 import { TODO_FILTERS } from '../../const'
-import { FilterValue, Todo, TodoDuedate, TodoId, TodoPriority, TodoStatus, TodoTags, TodoTitle } from '../../types'
-import { getData, updateData } from '../../utils/api'
+import { FilterValue, ListOfTodos, Todo, TodoDuedate, TodoId, TodoPriority, TodoStatus, TodoTags, TodoTitle } from '../../types'
+import { getData, updateData, createData, deleteData } from '../../utils/api'
 
 
 
@@ -12,11 +12,14 @@ export const useTodos = () => {
     const [search, setSearch] = useState('')
     const [editTodo, setEditTodo] = useState<Todo | null>(null)
     const [loading, setLoading] = useState(true)
+    console.warn(todos);
 
     useEffect(() => {
         const fetchTodos = async () => {
             try {
                 const data = await getData()
+                console.warn('data: ', data);
+
                 setTodos(data)
             } catch (error) {
                 console.log("useTodos' error");
@@ -28,13 +31,13 @@ export const useTodos = () => {
         fetchTodos()
     }, [])
 
-    const handleAddTodo = (
+    const handleAddTodo = async (
         { title }: TodoTitle,
         { priority }: TodoPriority,
         { dueDate }: TodoDuedate,
         { tags }: TodoTags,
         { status }: TodoStatus
-    ): void => {
+    ): Promise<void> => {
 
         const newTodo = {
             title,
@@ -45,44 +48,39 @@ export const useTodos = () => {
             completed: false,
             status
         }
-        setTodos(prev => [...prev, newTodo]);
+        const added = await createData(newTodo)
+        setTodos(prev => [...prev, added]);
     }
 
     const updateTodo = async ({ id, ...updatedFields }: Partial<Todo> & TodoId): Promise<void> => {
+        console.log('udpdateTodo funcionaaaa: ', id);
         console.log('ID:', id);
-        
-        try {
-            let updatedTodo : Todo | null = null;
 
-            setTodos((prevTodos) =>{
-                return  prevTodos.map((todo) =>{
+        try {
+            let updatedTodos: ListOfTodos = [];
+
+            setTodos((prevTodos) => {
+                updatedTodos = prevTodos.map((todo) => {
                     if (todo.id === id) {
-                        updatedTodo = { ...todo, ...updatedFields }
-                        return updatedTodo
+                        return { ...todo, ...updatedFields }
                     }
                     return todo
                 })
+                return updatedTodos
             });
 
-            if (updatedTodo) {
-                await updateData(updatedTodo)
-                console.log(`Task with id: ${id} has been updated`);
-            }else{
-                console.log(`Task with id: ${id} has not been found`);
-                
-            }
+            await updateData(updatedTodos)
+            console.log(`Task with id: ${id} has been updated`);
+
         } catch (error) {
             console.log('Error at updateTodo function');
             throw error
-            
         }
-
-
-
     };
 
-    const handleRemoveTodo = ({ id }: TodoId) => {
+    const handleRemoveTodo = async ({ id }: TodoId) => {
         setTodos((prev) => prev.filter(todo => todo.id !== id))
+        await deleteData({ id })
     }
 
 

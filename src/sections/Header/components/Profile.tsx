@@ -6,7 +6,7 @@ export const Profile: React.FC = () => {
             <div className='size-10 md:size-12 rounded-full overflow-hidden ring-4 ring-teal-500'>
                 <img 
                 className='object-cover w-full'
-                src="https://unavatar.io/XnicolasG" alt="profile" />
+                src="https://avatars.githubusercontent.com/u/92556205?v=4" alt="profile" />
             </div>
             <p className='text-lg'>XnicolasG</p>
         </section>

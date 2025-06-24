@@ -17,8 +17,8 @@ interface Props {
 
 export const NewCard: React.FC<Props> = ({ name, }) => {
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const {handleAddTodo} = useTodoContext()
-    
+    const { handleAddTodo } = useTodoContext()
+
     const [values, setValues] = useState({
         title: '',
         priority: '',
@@ -30,17 +30,21 @@ export const NewCard: React.FC<Props> = ({ name, }) => {
 
     const today = new Date().toISOString().split('T')[0];
 
-    const handleSubmit = (e: React.KeyboardEvent<HTMLFormElement>): void => {
+    const handleSubmit = async (e: React.KeyboardEvent<HTMLFormElement>) => {
         e.preventDefault()
-        handleAddTodo({ title: values.title }, { priority: values.priority }, { dueDate: values.dueDate }, { tags: values.tags }, { status: name })
-        setValues({
-            title: '',
-            priority: '',
-            dueDate: '',
-            tags: '',
-            name
-        })
-        setIsModalOpen(false)
+        try {
+            await handleAddTodo({ title: values.title }, { priority: values.priority }, { dueDate: values.dueDate }, { tags: values.tags }, { status: name })
+            setValues({
+                title: '',
+                priority: '',
+                dueDate: '',
+                tags: '',
+                name
+            })
+            setIsModalOpen(false)
+        } catch (error) {
+            console.error("Error at handleSubmit", error)
+        }
     }
     return (
         <header>
@@ -55,7 +59,7 @@ export const NewCard: React.FC<Props> = ({ name, }) => {
                     new task
                 </p>
             </button>
-            <Modal isOpen={isModalOpen} onClose={()=> setIsModalOpen(false)} title="New Task">
+            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="New Task">
                 <form
                     onSubmit={handleSubmit}
                 >

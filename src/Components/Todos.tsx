@@ -2,6 +2,7 @@ import { Cards } from './Cards'
 import { NewCard } from './NewCard'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { useTodoContext } from '../context/TodoContext'
+import { useTodos } from '../context/Hooks/useTodos'
 
 interface Props {
     name: string
@@ -13,6 +14,7 @@ export const Todos: React.FC<Props> = ({ name, }) => {
         moveCard,
         loading
     } = useTodoContext()
+    const { updateTodo } = useTodos()
     console.log(filteredTodos);
 
     const [animationParent] = useAutoAnimate()
@@ -21,8 +23,8 @@ export const Todos: React.FC<Props> = ({ name, }) => {
         e.preventDefault();
         const data: string = e.dataTransfer?.getData('text/plain')
         const droppedTodo = JSON.parse(data)
-
         moveCard(droppedTodo.id, name)
+        updateTodo({id:droppedTodo.id, status:name})
     };
 
     const handleDragOver = (e: React.DragEvent<HTMLUListElement>) => {

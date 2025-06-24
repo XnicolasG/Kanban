@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
-import { Todo as TodoType } from '../types'
+import { Todo, Todo as TodoType } from '../types'
 import { draggable } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { setCustomNativeDragPreview } from '@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview'
 import { combine } from '@atlaskit/pragmatic-drag-and-drop/combine'
@@ -9,18 +9,19 @@ import { useTodoContext } from "../context/TodoContext";
 import { Edit } from "../icons/Edit";
 import { Modal } from "./Modal";
 import { EditTodoForm } from "./EditTodoForm";
+import { DeleteTodoModal } from "./DeleteTodoModal";
 
 interface Props extends TodoType {
-    // onRemoveTodo: ({ id }: TodoId) => void
-    todo: any
+    todo: Todo
 }
 
 export const Cards: React.FC<Props> = ({ id, title, completed, priority, dueDate, tags, todo }) => {
     const [isDragging, setDragging] = useState(false)
     const [preview, setPreview] = useState<HTMLElement | null>();
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const [modalType, setModalType] = useState<'edit' | 'delete' | null>(null)
     const cardRef = useRef(null)
-    const { handleRemoveTodo, updateTodo} = useTodoContext()
+    const { handleRemoveTodo, updateTodo } = useTodoContext()
 
     // const hanldeEditSave = ()
 
@@ -58,9 +59,13 @@ export const Cards: React.FC<Props> = ({ id, title, completed, priority, dueDate
     const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
         e.dataTransfer.setData('text/plain', JSON.stringify(todo))
     }
-    const handleSave = (updatedTodo: Partial<TodoType> & { id: string }) => {
-        updateTodo(updatedTodo);  
-        setIsModalOpen(false); 
+    const handleSave = async (updatedTodo: Partial<TodoType> & { id: string }) => {
+        try {
+            await updateTodo(updatedTodo);
+            setIsModalOpen(false);
+        } catch (error) {
+            console.error("Error al actualizar la tarea", error)
+        }
     };
     return (
         <div
@@ -84,21 +89,47 @@ export const Cards: React.FC<Props> = ({ id, title, completed, priority, dueDate
             ">
 
                 <button
-                   onClick={()=> setIsModalOpen(true)}
+                    onClick={() => {
+                        setIsModalOpen(true)
+                        setModalType('edit')
+                    }}
                 >
-                    <Edit 
-                    className="hover:text-teal-400" />
+                    <Edit
+                        className="hover:text-teal-400" />
                 </button>
                 <button
                     className=""
-                    onClick={() => handleRemoveTodo({ id })}
+                    onClick={() => {
+                        setModalType('delete')
+                        setIsModalOpen(true)
+                    }}
                 >
                     <Trash className="hover:text-red-500 transition-all duration-150" />
                 </button>
             </div>
 
-            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-                <EditTodoForm todo={todo} onSave={handleSave} />
+            <Modal
+                isOpen={isModalOpen}
+                onClose={() => {
+                    setIsModalOpen(false)
+                    setModalType(null)
+                }}>
+                {
+                    modalType === 'edit'
+                        ?
+                        <EditTodoForm todo={todo} onSave={handleSave} />
+                        :
+                        (
+                            <DeleteTodoModal 
+                                title={title}
+                                id={id}
+                                handleRemoveTodo={handleRemoveTodo}
+                                setIsModalOpen={setIsModalOpen}
+                                setModalType={setModalType}
+                            />
+
+                        )
+                }
             </Modal>
 
             {preview && createPortal(<ToDoPreview title={title} />, preview)}
