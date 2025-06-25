@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
-import { Todo, Todo as TodoType } from '../types'
+import {  Todo as TodoType } from '../types'
 import { draggable } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { setCustomNativeDragPreview } from '@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview'
 import { combine } from '@atlaskit/pragmatic-drag-and-drop/combine'
