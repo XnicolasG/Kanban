@@ -19,7 +19,6 @@ export const useTodos = () => {
             try {
                 const data = await getData()
                 console.warn('data: ', data);
-
                 setTodos(data)
             } catch (error) {
                 console.log("useTodos' error");

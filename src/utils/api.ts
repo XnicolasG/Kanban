@@ -14,7 +14,6 @@ const axiosInstance = axios.create({
 })
 
 export const getData = async () => {
-
     try {
         const request = await axiosInstance.get(`/b/${ID}/latest`)
         console.log('getData fetching function successful');

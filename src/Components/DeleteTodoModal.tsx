@@ -1,5 +1,6 @@
 import React from 'react'
 import { TodoId } from '../types'
+
 interface DeleteTodoModalProps {
     title: string
     id: string

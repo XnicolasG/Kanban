@@ -68,7 +68,7 @@ export const NewCard: React.FC<Props> = ({ name, }) => {
                             <input
                                 value={values.tags}
                                 className="modalInput"
-                                placeholder="task's tag"
+                                placeholder="task's tag  ('Home', 'work',...)"
                                 onChange={(e) => setValues({ ...values, tags: e.target.value })}
                                 required
                             />

@@ -12,7 +12,7 @@ import { EditTodoForm } from "./EditTodoForm";
 import { DeleteTodoModal } from "./DeleteTodoModal";
 
 interface Props extends TodoType {
-    todo: Todo
+    todo: any
 }
 
 export const Cards: React.FC<Props> = ({ id, title, completed, priority, dueDate, tags, todo }) => {
@@ -68,10 +68,10 @@ export const Cards: React.FC<Props> = ({ id, title, completed, priority, dueDate
         }
     };
     return (
-        <div
+        <section
             ref={cardRef}
             onDragStart={handleDragStart}
-            className={`bg-zinc-700/80 rounded p-2 flex flex-col w-52 md:w-64 lg:w-72 justify-between ${isDragging ? 'opacity-60 bg-gradient-to-br from-zinc-700/80 to-blue-900 transition-all duration-150' : ''}`}>
+            className={`bg-zinc-700/80 cursor-pointer hover:bg-zinc-800 transition-all duration-200 rounded p-2 flex flex-col w-52 md:w-64 lg:w-72 justify-between ${isDragging ? 'opacity-60 bg-gradient-to-br from-zinc-700/80 to-blue-900 transition-all duration-150' : ''}`}>
             <div className="flex flex-col gap-2 p-2">
                 <article>
                     <p className="text-gray-900 bg-lime-300 max-w-20 text-center rounded-xl">{tags}</p>
@@ -133,7 +133,7 @@ export const Cards: React.FC<Props> = ({ id, title, completed, priority, dueDate
             </Modal>
 
             {preview && createPortal(<ToDoPreview title={title} />, preview)}
-        </div>
+        </section>
     )
 }
 
