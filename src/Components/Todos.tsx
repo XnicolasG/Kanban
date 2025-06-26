@@ -2,7 +2,6 @@ import { Cards } from './Cards'
 import { NewCard } from './NewCard'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { useTodoContext } from '../context/TodoContext'
-import { useTodos } from '../context/Hooks/useTodos'
 
 interface Props {
     name: string
@@ -12,9 +11,9 @@ export const Todos: React.FC<Props> = ({ name, }) => {
     const {
         filteredTodos,
         moveCard,
-        loading
+        loading,
+        updateTodo
     } = useTodoContext()
-    const { updateTodo } = useTodos()
     console.log(filteredTodos);
 
     const [animationParent] = useAutoAnimate()

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 // import { mockTodos } from '../../data/mock'
 import { TODO_FILTERS } from '../../const'
-import { FilterValue, ListOfTodos, Todo, TodoDuedate, TodoId, TodoPriority, TodoStatus, TodoTags, TodoTitle } from '../../types'
+import { FilterValue, Todo, TodoDuedate, TodoId, TodoPriority, TodoStatus, TodoTags, TodoTitle } from '../../types'
 import { getData, updateData, createData, deleteData } from '../../utils/api'
 
 
@@ -17,6 +17,7 @@ export const useTodos = () => {
     useEffect(() => {
         const fetchTodos = async () => {
             try {
+                console.log('%cFetching todos from JSONBin...', 'color: blue');
                 const data = await getData()
                 console.warn('data: ', data);
                 setTodos(data)
@@ -52,30 +53,26 @@ export const useTodos = () => {
     }
 
     const updateTodo = async ({ id, ...updatedFields }: Partial<Todo> & TodoId): Promise<void> => {
-        console.log('udpdateTodo funcionaaaa: ', id);
-        console.log('ID:', id);
+        console.log('updateTodo funcionaaaa: ', id);
 
         try {
-            let updatedTodos: ListOfTodos = [];
+            // 1. Usamos los datos actuales para generar el array actualizado
+            const updatedTodos = todos.map((todo) =>
+                todo.id === id ? { ...todo, ...updatedFields } : todo
+            );
 
-            setTodos((prevTodos) => {
-                updatedTodos = prevTodos.map((todo) => {
-                    if (todo.id === id) {
-                        return { ...todo, ...updatedFields }
-                    }
-                    return todo
-                })
-                return updatedTodos
-            });
+            // 2. Actualizamos el estado con el array ya listo
+            setTodos(updatedTodos);
 
-            await updateData(updatedTodos)
+            // 3. Hacemos la petición
+            await updateData(updatedTodos);
             console.log(`Task with id: ${id} has been updated`);
-
         } catch (error) {
             console.log('Error at updateTodo function');
-            throw error
+            throw error;
         }
     };
+
 
     const handleRemoveTodo = async ({ id }: TodoId) => {
         setTodos((prev) => prev.filter(todo => todo.id !== id))
